@@ -1,0 +1,4 @@
+[submodule "lib/libft"]
+	path = lib/libft
+	url = git@github.com:thawansilva/libft.git
+	branch = extra
