@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/13 11:08:29 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/13 11:20:52 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/13 21:29:21 by thawan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 void	error_msg(char *str)
 {
-	ft_putendl_fd(str, STDERR);
+	perror(str);
 	exit(1);
 }
