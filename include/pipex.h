@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/15 16:53:27 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/16 16:23:04 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 // Standard errors code
 # define CMD_NOT_FOUND 127
 
-// Error Messages
+// Utils functions
 void	error_msg(char *str);
+void	execute_command(char *full_cmd, char **envp);
+char	*get_command_path(char *full_cmd, char **envp);
+void	free_arr_str(char **arr_str);
+char	*get_path_env_variable(char **envp);
 #endif
