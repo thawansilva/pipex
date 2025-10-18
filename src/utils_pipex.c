@@ -6,16 +6,16 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:11:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/16 16:24:17 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/18 14:42:48 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_msg(char *str)
+void	error_msg(char *str, int exit_code)
 {
-	ft_putendl_fd(str, STDERR);
-	exit(1);
+	perror(str);
+	exit(exit_code);
 }
 
 void	free_arr_str(char **arr_str)
@@ -80,14 +80,19 @@ void	execute_command(char *full_cmd, char **envp)
 	if (*envp == NULL)
 		return ;
 	path = get_command_path(full_cmd, envp);
+	if (access(path, F_OK) != 0)
+	{
+		ft_putstr_fd("pipe: command not found: ", 2);
+		ft_putendl_fd(path, 2);
+		exit(1);
+	}
 	splited_cmd = ft_split(full_cmd, ' ');
 	if (execve(path, splited_cmd, envp) < 0)
 	{
-		ft_putstr_fd("pipex: command not found: ", 2);
-		ft_putendl_fd(path, 2);
 		free_arr_str(splited_cmd);
-		exit(1);
+		if (errno == EACCES)
+			error_msg("exec", 126);
+		else
+			error_msg("exec", 127);
 	}
-	free(path);
-	free_arr_str(splited_cmd);
 }

@@ -1,0 +1,76 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/17 15:00:45 by thaperei          #+#    #+#             */
+/*   Updated: 2025/10/18 14:25:48 by thaperei         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+static int	open_file(char *filename, int stream)
+{
+	int	fd;
+
+	fd = -1;
+	if (stream == STDIN)
+		fd = open(filename, O_RDONLY, 0777);
+	else if (stream == STDOUT)
+		fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
+	return (fd);
+}
+
+static void	child_process_input(char **argv, char **envp, int *pipe_fd)
+{
+	int	fd;
+
+	close(pipe_fd[READ]);
+	fd = open_file(argv[1], STDIN);
+	if (fd < 0)
+		error_msg("pipex", 1);
+	dup2(fd, STDIN);
+	dup2(pipe_fd[WRITE], STDOUT);
+	close(fd);
+	close(pipe_fd[WRITE]);
+	execute_command(argv[2], envp);
+}
+
+static void	parent_process_output(char **argv, char **envp, int *pipe_fd)
+{
+	int	fd;
+
+	close(pipe_fd[WRITE]);
+	fd = open_file(argv[4], STDOUT);
+	if (fd < 0)
+		error_msg("pipex", 1);
+	dup2(fd, STDOUT);
+	dup2(pipe_fd[READ], STDIN);
+	close(fd);
+	close(pipe_fd[READ]);
+	execute_command(argv[3], envp);
+}
+
+void	pipex(char **argv, char **envp)
+{
+	int		pipe_fd[2];
+	int		pid;
+
+	if (!envp && !argv)
+		return ;
+	if (pipe(pipe_fd) < 0)
+		error_msg("pipex", 1);
+	pid = fork();
+	if (pid < 0)
+		error_msg("pipex", 1);
+	else if(pid == 0)
+		child_process_input(argv, envp, pipe_fd);
+	parent_process_output(argv, envp, pipe_fd);
+	close(pipe_fd[READ]);
+	close(pipe_fd[WRITE]);
+	wait(NULL);
+}
+
