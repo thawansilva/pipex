@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_msg.c                                        :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/13 11:08:29 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/13 21:29:21 by thawan           ###   ########.fr       */
+/*   Created: 2025/10/18 19:45:39 by thaperei          #+#    #+#             */
+/*   Updated: 2025/10/19 07:56:12 by thawan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_msg(char *str)
+int	main(int argc, char **argv, char **envp)
 {
-	perror(str);
-	exit(1);
+	pipex(argv, envp);
+	return (0);
 }
