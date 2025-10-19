@@ -6,19 +6,19 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:11:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/18 16:24:42 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:52:09 by thawan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	error_msg(char *str, int exit_code)
+void	print_error(char *str, int exit_code)
 {
 	perror(str);
 	exit(exit_code);
 }
 
-void	free_arr_str(char **arr_str)
+void	free_arr(char **arr_str)
 {
 	int	i;
 
@@ -60,14 +60,14 @@ char	*get_command_path(char *full_cmd, char **envp)
 		free(aux);
 		if (access(path, F_OK | X_OK) == 0)
 		{
-			free_arr_str(arr_paths);
-			free_arr_str(splited_cmd);
+			free_arr(arr_paths);
+			free_arr(splited_cmd);
 			return (path);
 		}
 		free(path);
 	}
-	free_arr_str(arr_paths);
-	free_arr_str(splited_cmd);
+	free_arr(arr_paths);
+	free_arr(splited_cmd);
 	return (full_cmd);
 }
 
@@ -88,10 +88,10 @@ void	execute_command(char *full_cmd, char **envp)
 	splited_cmd = ft_split_literal(full_cmd, ' ', '\'');
 	if (execve(path, splited_cmd, envp) < 0)
 	{
-		free_arr_str(splited_cmd);
+		free_arr(splited_cmd);
 		if (errno == EACCES)
-			error_msg("exec", 126);
+			print_error("exec", 126);
 		else
-			error_msg("exec", 127);
+			print_error("exec", 127);
 	}
 }

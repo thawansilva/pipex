@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:00:45 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/18 20:38:10 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/19 11:55:09 by thawan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,41 +24,41 @@ static int	open_file(char *filename, int stream)
 	return (fd);
 }
 
-static void	child_process_input(char **argv, char **envp, int *pipe_fd)
+static void	execute_first_command(char **argv, char **envp, int *pipe_fd)
 {
 	int	fd;
 
 	close(pipe_fd[READ]);
 	fd = open_file(argv[1], STDIN_FILENO);
 	if (fd < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	if (dup2(fd, STDIN_FILENO) < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	if (dup2(pipe_fd[WRITE], STDOUT_FILENO) < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	close(fd);
 	close(pipe_fd[WRITE]);
 	execute_command(argv[2], envp);
 }
 
-static void	parent_process_output(char **argv, char **envp, int *pipe_fd)
+static void	execute_second_command(char **argv, char **envp, int *pipe_fd)
 {
 	int	fd;
 
 	close(pipe_fd[WRITE]);
 	fd = open_file(argv[4], STDOUT_FILENO);
 	if (fd < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	if (dup2(fd, STDOUT) < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	if (dup2(pipe_fd[READ], STDIN_FILENO) < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	close(fd);
 	close(pipe_fd[READ]);
 	execute_command(argv[3], envp);
 }
 
-void	pipex(char **argv, char **envp)
+void	init_pipex(char **argv, char **envp)
 {
 	int		pipe_fd[2];
 	int		pid;
@@ -66,14 +66,12 @@ void	pipex(char **argv, char **envp)
 	if (!envp && !argv)
 		return ;
 	if (pipe(pipe_fd) < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	pid = fork();
 	if (pid < 0)
-		error_msg("pipex", 1);
+		print_error("pipex", 1);
 	else if (pid == 0)
-		child_process_input(argv, envp, pipe_fd);
-	parent_process_output(argv, envp, pipe_fd);
-	close(pipe_fd[READ]);
-	close(pipe_fd[WRITE]);
+		execute_first_command(argv, envp, pipe_fd);
+	execute_second_command(argv, envp, pipe_fd);
 	wait(NULL);
 }
