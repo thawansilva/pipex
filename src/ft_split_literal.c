@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 11:25:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/18 14:39:54 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/18 16:20:41 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static void	ft_insert_str(char **arr, const char *str, char c, char literal)
 	j = 0;
 	start = 0;
 	in_literal = 0;
-	while (str[i])
+	while (str[i] != '\0')
 	{
 		if (str[i] == literal)
 			in_literal = !in_literal;
@@ -75,7 +75,7 @@ static void	ft_insert_str(char **arr, const char *str, char c, char literal)
 		}
 		else if (str[i] == c && !in_literal && i == start)
 			start = i + 1;
-		str++;
+		i++;
 	}
 	if (i != start)
 		arr[j] = ft_substr(str, start, i - start);

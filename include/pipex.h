@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/18 14:43:48 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/18 17:55:34 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@
 // Pipe fd's macro
 # define READ 0
 # define WRITE 1
-// Standard errors code
-# define CMD_NOT_FOUND 127
 
 void	pipex(char **argv, char **envp);
+char	**ft_split_literal(char const *str, char c, char literal);
 
 // Utils functions
 void	error_msg(char *str, int exit_code);

@@ -5,7 +5,7 @@ OBJDIR := obj
 INCDIR := include lib/libft
 
 # Source files and Objects
-SRC := main.c pipex.c utils_pipex.c\
+SRC := main.c pipex.c utils_pipex.c ft_split_literal.c\
 
 SRC := $(SRC:%=$(SRCDIR)/%)
 OBJS := $(SRC:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
