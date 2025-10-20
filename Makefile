@@ -8,7 +8,8 @@ INCDIR := include lib/libft
 
 # Source files and Objects
 SRC := main.c pipex.c utils_pipex.c ft_split_literal.c
-SRC_BONUS := main_bonus.c handle_multiple_pipes_bonus.c utils_pipex_bonus.c\
+SRC_BONUS := main_bonus.c pipex_bonus.c utils_pipex_bonus.c\
+	   ft_split_literal.c\
 
 SRC := $(SRC:%=$(SRCDIR)/%)
 SRC_BONUS := $(SRC_BONUS:%=$(SRCBONUSDIR)/%)
@@ -32,38 +33,47 @@ RMDIR := rm -fr
 DUP_DIR = mkdir -p $(@D)
 COLOR_GREEN := \033[0;32m
 END_COLOR := \033[0m
+MANDATORY_MARK = .mandatory
+BONUS_MARK = .bonus
+
 
 all: $(NAME) 
 
-$(NAME): $(OBJS) $(LIBS_TARGET)
-	@$(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-	@echo "✅ $(COLOR_GREEN)$(NAME) CREATED $(END_COLOR)"
+# Mandatory
+$(NAME): $(MANDATORY_MARK)
 
-bonus: $(OBJS_BONUS) $(LIBS_TARGET)
-	@$(CC) $(OBJS_BONUS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-	@echo "✅ $(COLOR_GREEN)$(NAME) CREATED $(END_COLOR)"
-
-$(LIBS_TARGET):
-	@$(MAKE) -C $(@D)
+$(MANDATORY_MARK): $(OBJS) $(LIBS_TARGET)
+	@$(RM) $(BONUS_MARK)
+	$(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	@touch $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@$(DUP_DIR)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	@echo "✅ $(COLOR_GREEN)$@ CREATED $(END_COLOR)"
+	$(DUP_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(LIBS_TARGET):
+	$(MAKE) -C $(@D)
+
+# Bonus
+bonus: $(BONUS_MARK)
+
+$(BONUS_MARK): $(OBJS_BONUS) $(LIBS_TARGET)
+	@$(RM) $(MANDATORY_MARK)
+	$(CC) $(OBJS_BONUS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+	@touch $@
+
 
 $(OBJBONUSDIR)/%.o: $(SRCBONUSDIR)/%.c
-	@$(DUP_DIR)
-	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-	@echo "✅ $(COLOR_GREEN)$@ CREATED $(END_COLOR)"
+	$(DUP_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
-	@$(RMDIR) $(OBJDIR) $(OBJBONUSDIR)
-	@echo "✅ $(COLOR_GREEN) Pipex Object Files DELETED $(END_COLOR)"
+	$(RMDIR) $(OBJDIR) $(OBJBONUSDIR)
+	@$(RM) $(BONUS_MARK) $(MANDATORY_MARK)
 
 fclean: clean
-	@for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f fclean; done
-	@$(RM) $(NAME) $(LIBMLX)
-	@echo "✅ $(COLOR_GREEN)$(NAME) and libft.a DELETED $(END_COLOR)"
+	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f fclean; done
+	$(RM) $(NAME) $(LIBMLX)
 
 re: fclean all
 
