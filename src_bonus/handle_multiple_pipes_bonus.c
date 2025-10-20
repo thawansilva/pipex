@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   handle_multiple_pipes_bonus.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: thawan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/17 15:00:45 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/19 20:36:21 by thawan           ###   ########.fr       */
+/*   Created: 2025/10/19 20:29:38 by thawan            #+#    #+#             */
+/*   Updated: 2025/10/19 21:18:10 by thawan           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 static int	open_file(char *filename, int stream)
 {
@@ -41,7 +41,7 @@ static void	execute_first_command(char **argv, char **envp, int *pipe_fd)
 	execute_command(argv[2], envp);
 }
 
-static void	execute_second_command(char **argv, char **envp, int *pipe_fd)
+static void	execute_last_command(char **argv, char **envp, int *pipe_fd)
 {
 	int	fd;
 
@@ -58,18 +58,29 @@ static void	execute_second_command(char **argv, char **envp, int *pipe_fd)
 	execute_command(argv[3], envp);
 }
 
-void	init_pipex(char **argv, char **envp)
+void	handle_multiple_pipes(int argc, char **argv, char **envp)
 {
-	int		pipe_fd[2];
-	int		pid;
+	int	pipe_fd[2];
+	int	pid;
+	//int	pid_loop;
+	int	i;
 
+	(void)envp;
 	if (pipe(pipe_fd) < 0)
 		print_error("pipex", 1);
 	pid = fork();
 	if (pid < 0)
 		print_error("pipex", 1);
 	else if (pid == 0)
-		execute_first_command(argv, envp, pipe_fd);
-	execute_second_command(argv, envp, pipe_fd);
-	wait(NULL);
+	{
+		// do first command
+	}
+	i = 3;
+	while (i < argc - 2)
+	{
+		// Create fork for each cmd
+		// and execute command
+		printf("%s\n", argv[i++]);
+	}
+	// do the last command
 }
