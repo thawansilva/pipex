@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/20 14:01:30 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/22 15:16:02 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,14 @@
 // Pipe fd's macro
 # define READ 0
 # define WRITE 1
+# define APPEND 2
 
 char	**ft_split_literal(char const *str, char c, char literal);
+// Pipex bonus
 void	process_pipe(char *cmd, char *envp[]);
 int		open_file(char *filename, int stream);
+void	handle_multiple_pipes(char **argv, int files[2]);
+void	handle_here_doc(int argc, char *limiter);
 
 // Utils functions
 void	print_error(char *str, int exit_code);
