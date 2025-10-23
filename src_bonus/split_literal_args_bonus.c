@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 11:25:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:00:18 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/23 19:21:06 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	*copy_arg(char const *str, char delimiter, int *start, int len)
 	in_quotes = 0;
 	quote = 0;
 	j = 0;
-	result = ft_calloc(len, sizeof(char));
+	result = ft_calloc(len + 1, sizeof(char));
 	while (str[*start] && (str[*start] != delimiter || in_quotes))
 	{
 		if ((str[*start] == '\'' || str[*start] == '"') && !in_quotes)
