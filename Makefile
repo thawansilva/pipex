@@ -7,9 +7,9 @@ OBJBONUSDIR := obj_bonus
 INCDIR := include lib/libft
 
 # Source files and Objects
-SRC := main.c pipex.c utils_pipex.c ft_split_literal.c
+SRC := main.c pipex.c utils_pipex.c split_literal_args.c 
 SRC_BONUS := main_bonus.c pipex_bonus.c utils_pipex_bonus.c\
-	   ft_split_literal.c\
+	   split_literal_args_bonus.c\
 
 SRC := $(SRC:%=$(SRCDIR)/%)
 SRC_BONUS := $(SRC_BONUS:%=$(SRCBONUSDIR)/%)

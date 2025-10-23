@@ -6,19 +6,13 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:11:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/20 10:24:50 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:14:35 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	print_error(char *str, int exit_code)
-{
-	perror(str);
-	exit(exit_code);
-}
-
-void	free_arr(char **arr_str)
+static void	free_arr(char **arr_str, char **arr_str2)
 {
 	int	i;
 
@@ -29,9 +23,16 @@ void	free_arr(char **arr_str)
 		i++;
 	}
 	free(arr_str);
+	i = 0;
+	while (arr_str2[i] != NULL)
+	{
+		free(arr_str2[i]);
+		i++;
+	}
+	free(arr_str2);
 }
 
-char	*get_path_env_variable(char **envp)
+static char	*get_path_env_variable(char **envp)
 {
 	while (*envp != NULL)
 	{
@@ -42,7 +43,7 @@ char	*get_path_env_variable(char **envp)
 	return (NULL);
 }
 
-char	*get_cmd_path(char *full_cmd, char **envp)
+static char	*get_cmd_path(char *full_cmd, char **envp)
 {
 	char	**splited_cmd;
 	char	**arr_paths;
@@ -51,7 +52,7 @@ char	*get_cmd_path(char *full_cmd, char **envp)
 	int		i;
 
 	i = -1;
-	splited_cmd = ft_split_literal(full_cmd, ' ', '\'');
+	splited_cmd = split_literal_args(full_cmd, ' ');
 	arr_paths = ft_split(get_path_env_variable(envp), ':');
 	while (arr_paths[++i] != NULL)
 	{
@@ -60,15 +61,19 @@ char	*get_cmd_path(char *full_cmd, char **envp)
 		free(aux);
 		if (access(path, F_OK | X_OK) == 0)
 		{
-			free_arr(arr_paths);
-			free_arr(splited_cmd);
+			free_arr(arr_paths, splited_cmd);
 			return (path);
 		}
 		free(path);
 	}
-	free_arr(arr_paths);
-	free_arr(splited_cmd);
+	free_arr(arr_paths, splited_cmd);
 	return (full_cmd);
+}
+
+void	print_error(char *str, int exit_code)
+{
+	perror(str);
+	exit(exit_code);
 }
 
 void	execute_cmd(char *full_cmd, char **envp)
@@ -76,7 +81,7 @@ void	execute_cmd(char *full_cmd, char **envp)
 	char	*path;
 	char	**splited_cmd;
 
-	if (*envp == NULL)
+	if (*envp == NULL || full_cmd == NULL)
 		return ;
 	path = get_cmd_path(full_cmd, envp);
 	if (access(path, F_OK) != 0)
@@ -85,10 +90,10 @@ void	execute_cmd(char *full_cmd, char **envp)
 		ft_putendl_fd(path, 2);
 		exit(1);
 	}
-	splited_cmd = ft_split_literal(full_cmd, ' ', '\'');
+	splited_cmd = split_literal_args(full_cmd, ' ');
 	if (execve(path, splited_cmd, envp) < 0)
 	{
-		free_arr(splited_cmd);
+		free_arr(splited_cmd, NULL);
 		if (errno == EACCES)
 			print_error("exec", 126);
 		else

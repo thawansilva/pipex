@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/19 20:27:16 by thawan           ###   ########.fr       */
+/*   Updated: 2025/10/23 15:46:56 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,11 @@
 # define READ 0
 # define WRITE 1
 
+char	**split_literal_args(char const *str, char delimiter);
 void	init_pipex(char **argv, char **envp);
-char	**ft_split_literal(char const *str, char c, char literal);
 
 // Utils functions
 void	print_error(char *str, int exit_code);
-void	execute_command(char *full_cmd, char **envp);
-char	*get_command_path(char *full_cmd, char **envp);
-char	*get_path_env_variable(char **envp);
 void	free_arr(char **arr_str);
+void	execute_command(char *full_cmd, char **envp);
 #endif

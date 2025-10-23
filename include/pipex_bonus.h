@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/22 15:16:02 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/23 15:50:30 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # define WRITE 1
 # define APPEND 2
 
-char	**ft_split_literal(char const *str, char c, char literal);
+char	**split_literal_args(char const *str, char c);
 // Pipex bonus
 void	process_pipe(char *cmd, char *envp[]);
 int		open_file(char *filename, int stream);
@@ -33,7 +33,4 @@ void	handle_here_doc(int argc, char *limiter);
 // Utils functions
 void	print_error(char *str, int exit_code);
 void	execute_cmd(char *full_cmd, char **envp);
-char	*get_cmd_path(char *full_cmd, char **envp);
-char	*get_path_env_variable(char **envp);
-void	free_arr(char **arr_str);
 #endif
