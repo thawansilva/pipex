@@ -1,5 +1,7 @@
 *.swp
 *.pdf
+.bonus
+.mandatory
 
 # Prerequisites
 *.d

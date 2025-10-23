@@ -6,13 +6,13 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:45:39 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/22 18:53:20 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:39:58 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	save_output_file(char *cmd, char *envp[], int files[])
+static void	save_output_file(char *cmd, char *envp[], int files[])
 {
 	if (dup2(files[WRITE], STDOUT_FILENO) < 0)
 		print_error("pipex", 1);

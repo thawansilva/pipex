@@ -6,7 +6,7 @@
 /*   By: thawan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 20:29:38 by thawan            #+#    #+#             */
-/*   Updated: 2025/10/22 15:20:34 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/23 17:05:02 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ void	insert_input(int *pipe_fd, char *limiter)
 {
 	char	*str;
 
+	close(pipe_fd[READ]);
 	while (1)
 	{
 		ft_putstr_fd("\033[1m pipe heredoc> \033[0m", 1);
 		str = get_next_line(0);
+		if (str == NULL)
+			break ;
 		if (ft_strncmp(str, limiter, ft_strlen(limiter)) == 0)
 		{
 			free(str);
@@ -68,6 +71,7 @@ void	insert_input(int *pipe_fd, char *limiter)
 		write(pipe_fd[WRITE], str, ft_strlen(str));
 		free(str);
 	}
+	close(pipe_fd[WRITE]);
 }
 
 void	handle_here_doc(int argc, char *limiter)
@@ -86,9 +90,7 @@ void	handle_here_doc(int argc, char *limiter)
 		print_error("pipex", 1);
 	else if (pid == 0)
 	{
-		close(pipe_fd[READ]);
 		insert_input(pipe_fd, limiter);
-		close(pipe_fd[WRITE]);
 		exit(0);
 	}
 	close(pipe_fd[WRITE]);
