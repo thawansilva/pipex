@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/18 19:45:39 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/23 18:39:58 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:57:52 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	else
 	{
 		i = 2;
-		handle_multiple_pipes(argv, files);
+		handle_multiple_pipes(argc, argv, files);
 	}
 	if (files[WRITE] < 0)
 		print_error("pipex", 1);

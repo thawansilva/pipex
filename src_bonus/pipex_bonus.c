@@ -6,7 +6,7 @@
 /*   By: thawan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 20:29:38 by thawan            #+#    #+#             */
-/*   Updated: 2025/10/23 17:05:02 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:58:13 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	handle_here_doc(int argc, char *limiter)
 	wait(NULL);
 }
 
-void	handle_multiple_pipes(char **argv, int files[2])
+void	handle_multiple_pipes(int argc, char **argv, int files[2])
 {
 	files[READ] = open_file(argv[1], READ);
 	if (files[READ] < 0)
@@ -108,5 +108,5 @@ void	handle_multiple_pipes(char **argv, int files[2])
 	if (dup2(files[READ], STDIN_FILENO) < 0)
 		print_error("pipex", 1);
 	close(files[READ]);
-	files[WRITE] = open_file(argv[2], WRITE);
+	files[WRITE] = open_file(argv[argc - 1], WRITE);
 }

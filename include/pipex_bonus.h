@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/11 17:49:22 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/23 15:50:30 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 12:58:34 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	**split_literal_args(char const *str, char c);
 // Pipex bonus
 void	process_pipe(char *cmd, char *envp[]);
 int		open_file(char *filename, int stream);
-void	handle_multiple_pipes(char **argv, int files[2]);
+void	handle_multiple_pipes(int argc, char **argv, int files[2]);
 void	handle_here_doc(int argc, char *limiter);
 
 // Utils functions
