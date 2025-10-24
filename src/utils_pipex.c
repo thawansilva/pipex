@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/16 15:11:25 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/23 16:10:53 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 11:19:13 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	execute_command(char *full_cmd, char **envp)
 		ft_putendl_fd(path, 2);
 		exit(1);
 	}
-	splited_cmd = ft_split(full_cmd, ' ');
+	splited_cmd = split_literal_args(full_cmd, ' ');
 	if (execve(path, splited_cmd, envp) < 0)
 	{
 		free_arr(splited_cmd);
