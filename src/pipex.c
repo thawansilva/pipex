@@ -6,7 +6,7 @@
 /*   By: thaperei <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/17 15:00:45 by thaperei          #+#    #+#             */
-/*   Updated: 2025/10/24 10:31:34 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:18:31 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	open_file(char *filename, int stream)
 
 	fd = -1;
 	if (stream == READ)
-		fd = open(filename, O_RDONLY, 0777);
+		fd = open(filename, O_RDONLY);
 	else if (stream == WRITE)
 		fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	return (fd);

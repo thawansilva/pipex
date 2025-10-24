@@ -6,7 +6,7 @@
 /*   By: thawan <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/19 20:29:38 by thawan            #+#    #+#             */
-/*   Updated: 2025/10/24 12:58:13 by thaperei         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:18:49 by thaperei         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_file(char *filename, int stream)
 
 	fd = -1;
 	if (stream == READ)
-		fd = open(filename, O_RDONLY, 0777);
+		fd = open(filename, O_RDONLY);
 	else if (stream == WRITE)
 		fd = open(filename, O_WRONLY | O_TRUNC | O_CREAT, 0777);
 	else if (stream == APPEND)
